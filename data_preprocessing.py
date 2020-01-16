@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
 import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 
@@ -83,23 +85,25 @@ def read_data_return_encoded():
     data.PARENT1 = data.PARENT1.apply(str.lower)
     data.PARENT1 = data.PARENT1.map({'yes': True, 'no': False})
 
-    # # Sprawdzenie ilości brakujących danych w każdej kolumnie
-    # for column in data.columns:
-    #     if data[column].isnull().values.any():
-    #         print(column)
-    #         print(data[column].isnull().sum())
+    # Sprawdzenie ilości brakujących danych w każdej kolumnie
+    print("Ilość brakujących danych w kolumnach")
+    for column in data.columns:
+        if data[column].isnull().values.any():
+            print(column)
+            print(data[column].isnull().sum())
 
     # Stworzenie macierzy korelacji
     corr_matrix = data.corr()
+    # Stworzenie i zapisanie do pliku heatmapy korelacji
+    mask = np.zeros_like(corr_matrix) # Maska - do przykrycia górnej cześći wykresu
+    mask[np.triu_indices_from(mask)] = True
+    f, ax = plt.subplots(figsize=(15,12))# figsize - określa rozmiar generowanego wykresu
+    with sns.axes_style("white"):
+        corr_plot = sns.heatmap(corr_matrix.round(2), mask=mask, square=True, annot=True, linewidths=.5, ax=ax)
+    fig = corr_plot.get_figure()
+    fig.savefig('correlation_matrix.png')# zapisanie wykresu do pliku
 
-    # # Print wartosci macierzy w kolejnosci rosnacej (tylko wartosci liczbowe)
-    # for column in data.columns:
-    #     if data[column].dtypes != '<M8[ns]' and data[column].dtypes != 'O':
-    #         print(column)
-    #         print(corr_matrix[column].sort_values(ascending=False))
-    #         print('-------------')
-
-    # Usunięcie kolumny 'CLM_DATE' - 7556 brakujacych rekordów
+    # Usunięcie kolumny 'CLM_DATE' - 7556 brakujacych rekordów - tożsame z kolumną 'CLM_FLAG'
     data = data.drop(['CLM_DATE'], axis=1)
 
     # Usinięcie kolumny 'Age*Gender' - nieprzydatna
@@ -138,6 +142,7 @@ def read_data_return_encoded():
     # Usunięcie kolumny 'INCOME' - brakuja dane a jest skorelowana z 'BLUEBOOK'(0,43)
     data = data.drop(['INCOME'], axis=1)
 
+    # Dodanie kolumny z dokładnym wiekiem ubezpieczającego
     data['EXACT_AGE'] = data.BIRTH.apply(get_age)
     data = data.drop(['BIRTH'], axis=1)
 
@@ -160,11 +165,17 @@ def read_data_return_encoded():
     encoded_data['CLM_FREQ'] = temp1.copy()
     encoded_data['CLM_FLAG'] = temp2.copy()
 
+    # Usunięcie kolumn z grupami wiekowymi - lepsze wyniki są otrzymywane z kolumną EXACT_AGE
+    encoded_data = encoded_data.drop(['>60', '16-24', '25-40', '41-60'], axis=1)
+
+    print("\nPozostawione kolumny:")
+    print(encoded_data.columns)
+
     return encoded_data
 
 
 def get_encoded_data_return_numerical(data):
-
+    "Funckja przerabia dane na numeryczne, a następnie skaluje je przy użyciu StadanrdScaler"
     # Zmiana typu danych z BOOL na INT
     data.RED_CAR = data.RED_CAR.astype(int)
     data.REVOKED = data.REVOKED.astype(int)
@@ -185,6 +196,8 @@ def get_encoded_data_return_numerical(data):
 
 
 def run_pca(data):
+    """Funkcja przeprowadza PCA na danym zbiorze danych.
+    Dane muszą być w formacie numerycznym."""
     n = 20
     pca = PCA(n_components=n)
     principal_components = pca.fit_transform(data)

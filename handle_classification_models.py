@@ -31,14 +31,12 @@ def draw_decision_tree(model, col_names, filename):
 
 def clm_flag_classification(data):
     """    Klasyfikacja CLM_FLAG - True/False.    """
-    # Usunięcie kolumny 'CLM_FREQ'
-    #data_no_freq = data.drop(['CLM_FREQ'], axis=1)
     # Stworzenie zestawów uczącego i testowego
     train_set, test_set = train_test_split(data, test_size=0.2, random_state=42)
 
-    X_train_set = train_set.loc[:, :'Urban']
+    X_train_set = train_set.loc[:, :'CLM_FREQ']
     y_train_set = train_set['CLM_FLAG']
-    X_test_set = test_set.loc[:, :'Urban']
+    X_test_set = test_set.loc[:, :'CLM_FREQ']
     y_test_set = test_set['CLM_FLAG']
 
     # Trening i test wybranych modeli

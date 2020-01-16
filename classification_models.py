@@ -1,3 +1,4 @@
+import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import export_graphviz
 from sklearn.model_selection import GridSearchCV
@@ -44,7 +45,9 @@ def decision_tree_grid(X_train_set, y_train_set, X_test_set, y_test_set):
 
     # Cechy od najbardziej do najmniej znaczących
     print("\nModel: DecisionTreeClasiffier\nDane bez wierszy z NaN.\n")
-    print(sorted(zip(tree_model.feature_importances_, X_train_set.columns, ), reverse=True))
+    features_sorted = sorted(zip(tree_model.feature_importances_, X_train_set.columns, ), reverse=True)
+    features_frame = pd.DataFrame(features_sorted, columns=['Importance', 'Feature'])
+    print("Cechy drzewa decyzyjnego:\n", features_frame)
 
     # kroswalidacja predykcji drzewa i stworzenie macierzy pomyłek
     y_train_tree_pred = cross_val_predict(tree_model, X_train_set, y_train_set, cv=3)
@@ -83,8 +86,9 @@ def random_forest_grid(X_train_set, y_train_set, X_test_set, y_test_set):
 
     # Cechy od najbardziej do najmniej znaczących
     print("\nModel: RandomForestClasiffier\nDane bez wierszy z NaN.\n")
-    print(sorted(zip(randforest_model.feature_importances_, X_train_set.columns, ), reverse=True))
-
+    features_sorted = sorted(zip(randforest_model.feature_importances_, X_train_set.columns, ), reverse=True)
+    features_frame = pd.DataFrame(features_sorted, columns=['Importance', 'Feature'])
+    print("Cechy lasu losowego:\n", features_frame)
     # kroswalidacja predykcji lasu losowego i stworzenie macierzy pomyłek
     y_train_randforest_pred = cross_val_predict(randforest_model, X_train_set, y_train_set, cv=3)
     conf_matrix = confusion_matrix(y_train_set, y_train_randforest_pred)

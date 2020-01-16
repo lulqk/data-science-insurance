@@ -10,19 +10,12 @@ from sklearn.ensemble import RandomForestRegressor
 class ResultDataRegressors:
     """Klasa w której zapisuje wynik każdego algorytmu"""
 
-    def __init__(self, model_name, model, rmse_train, rmse_test, cvs_scores,
-                 precision_train, recall_train, f1_train, precision_test, recall_test, f1_test):
+    def __init__(self, model_name, model, rmse_train, rmse_test, cvs_scores):
         self.model_name = model_name
         self.model = model
         self.rmse_train = rmse_train
         self.rmse_test = rmse_test
         self.cvs_scores = cvs_scores
-        self.precision_train = precision_train
-        self.recall_train = recall_train
-        self.f1_train = f1_train
-        self.precision_test = precision_test
-        self.recall_test = recall_test
-        self.f1_test = f1_test
 
         self.cvs_mean = self.cvs_scores.mean()
         self.cvs_std = self.cvs_scores.std()
