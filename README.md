@@ -107,7 +107,7 @@ Pozostawione kolumny:
 * CLM_FLAG
 
 
-#Wyniki analizy danych
+# Wyniki analizy danych
 Po analizie postanowiono:
 * Zbinaryzować dane jakościowe
 * Usunąć daty - jako, że nie wnoszą nic do predykcji
@@ -117,22 +117,22 @@ Po analizie postanowiono:
 * Stworzyć kolumnę EXACT_AGE, a następnie usunąć kolumy z grupami wiekowymi
 
 
-#Tworzenie modeli
+# Tworzenie modeli
 Modele zostały zaczerpnięte z biblioteki scikit-learn.
 
-##Modele klasyfikujące:
+## Modele klasyfikujące:
 Modele znajdują się w pliku classification_models.py, a funkcja do obsługi modeli i zbierania ich wyników znajduje się w pliku handle_classification_models.py
 
-##Modele regresji:
+## Modele regresji:
 Modele oraz funkcja do zebrania ich wyników znajdują się w pliku handle_regression_models.py
 
 
 
-#Wyniki poszczególnych modeli:
-##Klasyfikacja - dane trenigowe:
-###Dane bez wierszy z NaN.
+# Wyniki poszczególnych modeli:
+## Klasyfikacja - dane trenigowe:
+### Dane bez wierszy z NaN.
 
-###Model: DecisionTreeClasiffier
+### Model: DecisionTreeClasiffier
 
 Najlepszy wynik drzewa decyzyjnego (accuracy):  0.7678938004653072
 
@@ -192,7 +192,7 @@ Positive | 4834 | 502
 Negative | 1196 | 775
 
 
-###Model: RandomForestClasiffier
+### Model: RandomForestClasiffier
 
 Najlepszy wynik lasu losowego (accuracy):  0.7817161625838237
 
@@ -205,7 +205,7 @@ X | Positive | Negative
 Positive | 5135 | 201
 Negative | 1394 | 577
 
-###Model: SGDClassifier
+### Model: SGDClassifier
 
 Macierz pomyłek klasyfikatora SGD dla zbioru treningowego:
 
@@ -215,7 +215,7 @@ Positive | 5191 | 145
 Negative | 1901 | 70
 
 
-##Klasyfikacja dane testowe:
+## Klasyfikacja dane testowe:
 
 DecisionTree
 
@@ -251,9 +251,9 @@ Positive | 0 | 1369
 Negative | 0 | 458
  
 
-###Dane bez kolumn 'YOJ' i 'SAMEHOME', w których brakowało wartości.
+### Dane bez kolumn 'YOJ' i 'SAMEHOME', w których brakowało wartości.
 
-###Model: DecisionTreeClasiffier
+### Model: DecisionTreeClasiffier
 Najlepszy wynik drzewa decyzyjnego (accuracy):  0.7672131147540984
 
 Parametry najlepszego drzewa:  {'max_depth': 8}
@@ -265,7 +265,7 @@ X | Positive | Negative
 Positive | 5478 | 594
 Negative | 1316 | 847
 
-###Model: RandomForestClasiffier
+### Model: RandomForestClasiffier
 
 Najlepszy wynik lasu losowego:  0.7857923497267759
 
@@ -278,7 +278,7 @@ X | Positive | Negative
 Positive | 5880 | 192
 Negative | 1572 | 591
 
-###Model: SGDCClassifier
+### Model: SGDCClassifier
 
 Macierz pomyłek klasyfikatora SGD dla zbioru treningowego:
 
@@ -288,7 +288,7 @@ X | Positive | Negative
 Positive | 541 | 621
 Negative | 1799 | 364
 
-##Klasyfikacja - dane testowe:
+## Klasyfikacja - dane testowe:
 
 DecisionTree
 
@@ -324,9 +324,9 @@ Positive | 0 | 1483
 Negative | 0 | 576
 
 
-#Regresja
+# Regresja
 
-##Dane bez wierszy zawierających NaN.
+## Dane bez wierszy zawierających NaN.
 
 Linear Regressor:
 
@@ -477,9 +477,9 @@ Lp. | Explained Component | Cummulative
 19 | 0.010703091058646225 | 0.9255319271188861
 
 
-#Regresja z PCA
+# Regresja z PCA
 
-##Dane bez wierszy zawierających NaN.
+## Dane bez wierszy zawierających NaN.
 
 Linear Regressor:
 
@@ -541,7 +541,7 @@ LassoCV Regressor:
 		Odchylenie standardowe: 0.02815342403665364
 		Wyniki: [1.00503369 1.05448074 1.02284862 1.04403261 1.07889511 1.00935552 1.00043584 1.0550171  0.99287087 1.05838454]
 
-##Dane bez kolumn 'YOJ' i 'SAMEHOME'
+## Dane bez kolumn 'YOJ' i 'SAMEHOME'
 
 Linear Regressor:
 
@@ -610,14 +610,8 @@ Zauważalne natomiast jest, że wyniki znacznie poprawiły się w drugim podejś
 
 Prawdopodobnie dalsza analiza danych i ich przetworzenie pozwoliłyby na osiągnięcie lepszego wyniku.
 
-##Regresja
+## Regresja
 Większość z modeli miała podobne wyniki, natomiast niezależnie od podejścia do brakująch rekordów, oraz przy użyciu PCA, najlepszym model okazywał się LassoCV.
 Najprawdopodobniej wynika to z tego, że model ten ogranicza ilość predyktorów.
 
 Dalsza redukcja cech przyniosłaby poprawę wyników końcowych.
-
-
-time elapsed seconds:  1051
-minutes =  17.516666666666666
-
-
